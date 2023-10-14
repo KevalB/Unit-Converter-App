@@ -8,16 +8,19 @@ class ConverterScreen extends StatefulWidget {
 class _ConverterScreenState extends State<ConverterScreen> {
   double inputValue = 0.0;
   double resultValue = 0.0;
+  // Basic units
   List<String> units = [
     'Meter',
     'Kilometer',
     'Kilogram',
     'Gram',
     'Celsius',
+    'Kelvin',
     'Fahrenheit',
     'Square Meter',
     'Square Foot'
   ];
+  // Default units when screen is shown
   String fromUnit = 'Meter';
   String toUnit = 'Meter';
   String errorMessage = '';
@@ -25,6 +28,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Title
       appBar: AppBar(
         title: Text('Unit Converter'),
       ),
@@ -33,6 +37,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
         child: Column(
           children: <Widget>[
             TextField(
+              // Input type only number
               keyboardType: TextInputType.number,
               onChanged: (String? value) {
                 if (value != null) {
@@ -93,7 +98,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Implement the conversion logic here
+                // The output will be generated here also will call the error message is conversion isn't valid
                 setState(() {
                   errorMessage = '';
                   resultValue = convert(inputValue, fromUnit, toUnit);
@@ -124,11 +129,12 @@ class _ConverterScreenState extends State<ConverterScreen> {
       return inputValue * 10.764; // Square Meter to Square Foot
     } else if (fromUnit == 'Square Foot' && toUnit == 'Square Meter') {
       return inputValue / 10.764; // Square Foot to Square Meter
-    }
-    if (fromUnit == 'Meter' && toUnit == 'Square Meter') {
+    } else if (fromUnit == 'Meter' && toUnit == 'Square Meter') {
       return inputValue * 2; // Meter to Square Meter
-    } else if (fromUnit == 'Square Meter' && toUnit == 'Meter') {
-      return inputValue / 2; // Square Meter to Meter
+    } else if (fromUnit == 'Celsius' && toUnit == 'Kelvin') {
+      return inputValue + 273.15; // Celsius to Kelvin
+    } else if (fromUnit == 'Kelvin' && toUnit == 'Celsius') {
+      return inputValue - 273.15; // Kelvin to Celsius
     } else {
       // Invalid conversion
       errorMessage = 'Invalid conversion';
